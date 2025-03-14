@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Shopping Cart</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="style.css" media="screen" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.store.js"></script>
+</head>
+
+<body>
+
+<div id="site">
+	<header id="masthead">
+		<h1></h1>
+	</header>
+	<div id="content">
+		<h1>Your Shopping Cart</h1>
+<div id="shopping-cart">
+
+			<table class="shopping-cart">
+			  <thead>
+				<tr>
+					<th scope="col">Item</th>
+					<th scope="col">Qty</th>
+					<th scope="col" colspan="2">Price</th>
+				</tr>
+			  </thead>
+			  <tbody id="cart-items">
+				<!-- Cart items will be populated here -->
+			  </tbody>
+
+			</table>
+			<p id="sub-total">
+				<strong>Sub Total</strong>: <span id="stotal"></span>
+			</p>
+			<ul id="shopping-cart-actions">
+                <li>
+                    <a href="index.html" class="btn">Continue Shopping</a>
+                </li>
+                <li>
+                    <a href="checkout.html" class="btn">Go To Checkout</a>
+                </li>
+
+				<li>
+					<a href="index.html" class="btn">Continue Shopping</a>
+				</li>
+				<li>
+					<a href="checkout.html" class="btn">Go To Checkout</a>
+				</li>
+			</ul>
+		</form>
+		<script>
+			// Fetch cart items and display them
+			fetch('/get-cart')
+				.then(response => response.json())
+				.then(data => {
+					const cartItemsContainer = document.getElementById('cart-items');
+					data.items.forEach(item => {
+						const row = document.createElement('tr');
+						row.innerHTML = `
+							<td>${item.name}</td>
+							<td><input type="number" value="${item.quantity}" min="1" /></td>
+							<td>${item.price}</td>
+						`;
+						cartItemsContainer.appendChild(row);
+					});
+					document.getElementById('stotal').innerText = data.total;
+				})
+				.catch(error => console.error('Error fetching cart items:', error));
+		</script>
+
+	</div>
+	
+</div>
+
+<footer id="site-info">
+	 Copyright &copy; 
+	</footer>
+
+</body>
+</html>
